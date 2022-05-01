@@ -33,6 +33,33 @@ class RealmManager {
             }
         }
     }
+    
+    func run() {
+
+        
+        let realm = try! Realm()
+        
+        let item = Item(name: "Test")
+        item.completed = true
+        item.size = .large
+        
+        try! realm.write {
+            realm.add(item)
+        }
+        
+        try! realm.write {
+            item.name = "Test Again"
+        }
+        
+        for item in realm.objects(Item.self) {
+            print(item.name)
+        }
+        
+        try! realm.write {
+            realm.delete(item)
+        }
+        
+    }
 }
 
 class Item: Object, ObjectKeyIdentifiable {
